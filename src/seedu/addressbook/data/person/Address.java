@@ -8,12 +8,16 @@ import seedu.addressbook.data.exception.IllegalValueException;
  */
 public class Address {
 
-    public static final String EXAMPLE = "123, some street";
-    public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
+    public static final String EXAMPLE = "a/123, Clementi Ave 3, #12-34, 231534";
+    public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in a/BLOCK, STREET, UNIT, POSTAL_CODE format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
 
     public final String value;
     private boolean isPrivate;
+    public Block block;
+    public Street street;
+    public Unit unit;
+    public PortalCode portalCode;
 
     /**
      * Validates given address.
@@ -25,7 +29,25 @@ public class Address {
         if (!isValidAddress(address)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        this.value = address;
+        
+        int i = 0;
+        for(String subAddress : address.split(",")){
+        	if(i == 0){
+        		block = new Block(subAddress);
+        	}
+        	else if(i == 1){
+        		street = new Street(subAddress);
+        	}
+        	else if(i == 2){
+        		unit = new Unit(subAddress);
+        	}
+        	else if(i == 3){
+        		portalCode = new PortalCode(subAddress);
+        	}
+            i++;
+        }
+        
+        this.value = block.getBlock() + ", " + street.getStreet() + ", " + unit.getUnit() + ", " + portalCode.getPortalCode();
     }
 
     /**
@@ -55,4 +77,56 @@ public class Address {
     public boolean isPrivate() {
         return isPrivate;
     }
+}
+
+class Block{
+	
+	private String block;
+	
+	public Block(String block){
+		this.block = block.trim();
+	}
+	
+	public String getBlock(){
+		return this.block;
+	}
+}
+
+class Street{
+	
+	private String street;
+	
+	public Street(String street){
+		this.street = street.trim();
+	}
+	
+	public String getStreet(){
+		return this.street;
+	}
+}
+
+class Unit{
+	
+	private String unit;
+	
+	public Unit(String unit){
+		this.unit = unit.trim();
+	}
+	
+	public String getUnit(){
+		return this.unit;
+	}
+}
+
+class PortalCode{
+	
+	private String portalCode;
+	
+	public PortalCode(String portalCode){
+		this.portalCode = portalCode.trim();
+	}
+	
+	public String getPortalCode(){
+		return this.portalCode;
+	}
 }
