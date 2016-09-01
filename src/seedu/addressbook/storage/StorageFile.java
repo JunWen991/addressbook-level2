@@ -46,6 +46,7 @@ public class StorageFile {
     private final JAXBContext jaxbContext;
 
     public final Path path;
+    public boolean fileIsExisted;
 
     /**
      * @throws InvalidStorageFilePathException if the default path is invalid
@@ -68,6 +69,7 @@ public class StorageFile {
         if (!isValidPath(path)) {
             throw new InvalidStorageFilePathException("Storage file should end with '.txt'");
         }
+        fileIsExisted = fileIsExisting();
     }
 
     /**
@@ -84,7 +86,15 @@ public class StorageFile {
      * @throws StorageOperationException if there were errors converting and/or storing data to file.
      */
     public void save(AddressBook addressBook) throws StorageOperationException {
-
+    	
+    	/**
+    	 * Checking for file existing.
+    	 * Throw exception if fail to locate existing file.
+    	 */
+    	if(!fileIsExisting() && fileIsExisted){
+    		throw new StorageOperationException("File not found: " + path);
+    	}
+    	
         /* Note: Note the 'try with resource' statement below.
          * More info: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
          */
@@ -95,6 +105,8 @@ public class StorageFile {
             final Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(toSave, fileWriter);
+            
+            fileIsExisted = fileIsExisting();
 
         } catch (IOException ioe) {
             throw new StorageOperationException("Error writing to file: " + path);
@@ -145,4 +157,7 @@ public class StorageFile {
         return path.toString();
     }
 
+    private boolean fileIsExisting() {
+		return path.toFile().exists();
+	}
 }
