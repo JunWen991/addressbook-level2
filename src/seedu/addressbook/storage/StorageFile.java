@@ -141,7 +141,12 @@ public class StorageFile {
         }
     }
 
-    public String getPath() {
+    private Exception FileNotFoundException(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPath() {
         return path.toString();
     }
 
