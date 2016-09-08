@@ -6,6 +6,10 @@ import org.junit.*;
 
 import seedu.addressbook.data.exception.IllegalValueException;
 
+/**
+ * JUnit test: check for Name
+ */
+
 public class NameTest {
     
     private Name name;
@@ -18,6 +22,7 @@ public class NameTest {
     @Test
     public void testIsSimilar_returnTrue() throws IllegalValueException {
         assertFalse(name.isSimilar(null));
+        assertTrue(name.isSimilar(new Name("John K Smith")));
     }
     
 }
