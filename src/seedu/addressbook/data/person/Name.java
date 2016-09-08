@@ -47,23 +47,34 @@ public class Name {
     }
     
     public boolean isSimilar(Name other) {
-        if (other == null) {
+        if (isNull(other)) {
             return false;
         }
         else {
-            if (fullName.equalsIgnoreCase(other.toString())) {
-                return true;
-            }
-            else {
-                List<String> splitOther = other.getWordsInName();
-                for (String splittedOther : splitOther) {
-                    if (fullName.contains(splittedOther)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
+            return isSimilarAllCases(other) || isSimilarAllOrders(other);
         }
     }
-
+    
+    private boolean isNull(Name other) {
+        if (other == null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    private boolean isSimilarAllCases(Name other) {
+        return fullName.equalsIgnoreCase(other.toString());
+    }
+    
+    private boolean isSimilarAllOrders(Name other) {
+        List<String> splitOther = other.getWordsInName();
+        for (String splittedOther : splitOther) {
+            if (fullName.contains(splittedOther)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
