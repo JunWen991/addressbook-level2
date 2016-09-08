@@ -70,6 +70,12 @@ public class Name {
                 return true;
             }
             else {
+                String[] splitOther = other.toString().split(" ");
+                for (String splittedOther : splitOther) {
+                    if (fullName.contains(splittedOther)) {
+                        return true;
+                    }
+                }
                 return false;
             }
         }
