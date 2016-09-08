@@ -23,6 +23,7 @@ public class NameTest {
     public void testIsSimilar_returnTrue() throws IllegalValueException {
         assertFalse(name.isSimilar(null));
         assertTrue(name.isSimilar(new Name("John K Smith")));
+        assertTrue(name.isSimilar(new Name("JoHn K SmITh")));
     }
     
 }
