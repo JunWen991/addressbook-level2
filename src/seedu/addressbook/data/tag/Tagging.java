@@ -20,6 +20,6 @@ public class Tagging {
     
     @Override
     public String toString() {
-        return (tagSymbol + " " + person.getName() + " " + tag.tagName);
+        return (tagSymbol + " " + person.getName() + " [" + tag.tagName + "]");
     }
 }
