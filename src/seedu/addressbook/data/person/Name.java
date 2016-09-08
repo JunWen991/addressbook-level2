@@ -12,36 +12,21 @@ import java.util.List;
 public class Name {
 
     public static final String EXAMPLE = "John Doe";
-    public static final String MESSAGE_NAME_CONSTRAINTS = "Person names should be spaces or alphabetic characters";
-    public static final String NAME_VALIDATION_REGEX = "[\\p{Alpha} ]+";
 
     public final String fullName;
 
     /**
      * Validates given name.
-     *
-     * @throws IllegalValueException if given name string is invalid.
      */
-    public Name(String name) throws IllegalValueException {
-        name = name.trim();
-        if (!isValidName(name)) {
-            throw new IllegalValueException(MESSAGE_NAME_CONSTRAINTS);
-        }
-        this.fullName = name;
-    }
-
-    /**
-     * Returns true if a given string is a valid person name.
-     */
-    public static boolean isValidName(String test) {
-        return test.matches(NAME_VALIDATION_REGEX);
+    public Name(String name) {
+        this.fullName = name.trim();
     }
 
     /**
      * Retrieves a listing of every word in the name, in order.
      */
     public List<String> getWordsInName() {
-        return Arrays.asList(fullName.split("\\s+"));
+        return Arrays.asList(fullName.split(",|\\s+"));
     }
 
     @Override
@@ -70,7 +55,7 @@ public class Name {
                 return true;
             }
             else {
-                String[] splitOther = other.toString().split(" ");
+                List<String> splitOther = other.getWordsInName();
                 for (String splittedOther : splitOther) {
                     if (fullName.contains(splittedOther)) {
                         return true;
